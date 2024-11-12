@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <link rel="stylesheet" href="/assets/styles.css">
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+      <!-- Navbar Section -->
+      <div class="navbar">
+        <a href="#home">Home</a>
+        <a href="#projects">Projects</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        </div>
+        <!-- Centered Video Section -->
+        <div>
+            <video id="background-video" autoplay playsinline muted>
+                <source src="video.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <img id="freeze-frame" src="/assets/images/last-frame.png" alt="Freeze Frame Test" style="display: none;">
+        </div>
+
+        <!-- Mute/Unmute Button -->
+        <button id="mute-button" onclick="toggleMute()">
+            <i class="fas fa-volume-up"></i>
+        </button>
+
+         <!-- JavaScript -->
+    <script>
+            function toggleMute() {
+                const video = document.getElementById('background-video');
+                const muteButtonIcon = document.querySelector('#mute-button i');
+
+                // Toggle muted state
+                video.muted = !video.muted;
+                muteButtonIcon.classList.toggle('fa-volume-up', !video.muted);
+                muteButtonIcon.classList.toggle('fa-volume-mute', video.muted);
+            }
+
+            document.addEventListener("DOMContentLoaded", function() {
+                const video = document.getElementById('background-video');
+                const freezeFrame = document.getElementById('freeze-frame');
+
+                // Add event listener to track the video progress
+                video.addEventListener('timeupdate', function() {
+                    // Show the freeze-frame only during the last second of the video
+                    if (video.currentTime >= video.duration - 1.25) {
+                        freezeFrame.style.display = "block"; // Show freeze-frame image
+                        video.muted = false;
+                    } else {
+                        freezeFrame.style.display = "none"; // Hide freeze-frame image during the video
+                    }
+
+                    // Once the video ends, ensure freeze-frame stays visible
+                    if (video.currentTime >= video.duration) {
+                        freezeFrame.style.display = "block"; // Keep freeze-frame visible after the video ends
+                        video.pause(); // Pause the video at the end
+                    }
+                });
+            });
+    </script>
+</body>
+</html>
